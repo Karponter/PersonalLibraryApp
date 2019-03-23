@@ -1,0 +1,11 @@
+.book__rate {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 50px;
+    padding-right: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
