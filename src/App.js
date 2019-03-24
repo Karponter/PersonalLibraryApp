@@ -5,16 +5,17 @@ import MainContent from './MainContent';
 import {connect} from 'react-redux';
 import './App.css';
 
-// library.add(faStar);
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faStar as faStarSolid, faSortUp, faSortDown} from '@fortawesome/free-solid-svg-icons'
+import { faStar as faStarSolid, faSortUp, faSortDown, faChevronLeft, faChevronRight} from '@fortawesome/free-solid-svg-icons'
 import { faStar as faStarRegular} from '@fortawesome/free-regular-svg-icons'
 
 library.add(
     faStarSolid,
     faStarRegular,
     faSortUp,
-    faSortDown);
+    faSortDown,
+    faChevronLeft,
+    faChevronRight);
 
 class App extends Component {
 

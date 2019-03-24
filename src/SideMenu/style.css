@@ -58,6 +58,17 @@ input:focus {
 }
 
 .read-menu {
+    position: relative;
     text-align: center;
     user-select: none;
+    color: white;
+}
+
+.read-menu__control {
+    position: relative;
+    top: 2px;
+    font-size: 20px;
+    margin: 0 10px;
+    color: #f6ea8c;
+    cursor: pointer;
 }

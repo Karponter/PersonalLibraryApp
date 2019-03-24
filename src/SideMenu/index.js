@@ -57,16 +57,17 @@ class SideMenu extends Component {
                 <p>
                     <label htmlFor="paginate">Paginate By</label>
                     <input onChange={(e) => this.props.onPaginationChange(e.target.value)} type="number"
-                           placeholder="Select amount" id="paginate"/>
+                           min='1' placeholder="Select amount" id="paginate"/>
                 </p>
+
                 <p className="read-menu">
-                    <span onClick={() => {
+                    <FontAwesomeIcon className='read-menu__control' onClick={() => {
                         this.props.onReadChange(this.readMenuBack());
-                    }}>&lt;</span>
+                    }} icon={'chevron-left'}/>
                     <span>{this.props.read}</span>
-                    <span onClick={() => {
+                    <FontAwesomeIcon className='read-menu__control' onClick={() => {
                         this.props.onReadChange(this.readMenuForward());
-                    }}>&gt;</span>
+                    }} icon={'chevron-right'}/>
                 </p>
             </aside>
         )
