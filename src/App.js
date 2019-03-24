@@ -7,10 +7,14 @@ import './App.css';
 
 // library.add(faStar);
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faStar as faStarSolid} from '@fortawesome/free-solid-svg-icons'
+import { faStar as faStarSolid, faSortUp, faSortDown} from '@fortawesome/free-solid-svg-icons'
 import { faStar as faStarRegular} from '@fortawesome/free-regular-svg-icons'
 
-library.add(faStarSolid, faStarRegular);
+library.add(
+    faStarSolid,
+    faStarRegular,
+    faSortUp,
+    faSortDown);
 
 class App extends Component {
 

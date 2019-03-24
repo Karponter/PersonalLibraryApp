@@ -1,9 +1,7 @@
 .book__rate {
     position: absolute;
-    top: 0;
-    right: 0;
-    height: 50px;
-    padding-right: 2rem;
+    top: 20px;
+    right: 20px;
     display: flex;
     align-items: center;
     justify-content: center;

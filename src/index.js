@@ -7,18 +7,36 @@ import {createStore} from 'redux';
 import {Provider} from 'react-redux';
 
 const initialState = {
+    sortValue: false,
+    sortPropertyValue: 'none',
     searchValue: '',
     paginationValue: '',
-    currentPageValue: 0
+    readValue: 'All',
+    filteredLibSizeValue: 0
 };
 
 function book(state = initialState, action) {
+
+    if (action.type === 'CHANGE_FILTERED_VALUE') {
+        return Object.assign({}, state, {filteredLibSizeValue: action.payload});
+    }
     if (action.type === 'CHANGE_PAGINATION_VALUE') {
         return Object.assign({}, state, {paginationValue: action.payload});
     }
     if (action.type === 'CHANGE_SEARCH_VALUE') {
         return Object.assign({}, state, {searchValue: action.payload});
     }
+    if (action.type === 'CHANGE_READ_VALUE') {
+        return Object.assign({}, state, {readValue: action.payload});
+    }
+    if (action.type === 'CHANGE_SORT_VALUE') {
+        return Object.assign({}, state, {sortValue: action.payload});
+    }
+    if (action.type === 'CHANGE_SORT_PROPERTY_VALUE') {
+        return Object.assign({}, state, {sortPropertyValue: action.payload});
+    }
+
+
     return state;
 }
 

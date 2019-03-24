@@ -3,7 +3,7 @@ import './style.css';
 
 class Pagination extends Component {
     render() {
-        return (
+           return (
             <ul>
                 <li>Pages:</li>
                 {this.showAvailablePages()}

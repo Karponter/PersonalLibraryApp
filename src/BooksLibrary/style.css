@@ -36,7 +36,7 @@ img {
     max-height: 60%;
 }
 
-.book__title {
+.book__name {
     position: absolute;
     bottom: 0;
     height: 50px;
@@ -49,8 +49,19 @@ img {
     font-size: 1.3rem;
 }
 
+.book__read {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    font-weight: bold;
+    font-size: 12px;
+    cursor: pointer;
+}
 
-
-.book__rate i {
-    margin: 0 2px;
+.book__date {
+    position: absolute;
+    top: 30px;
+    left: 20px;
+    font-weight: normal;
+    font-size: 12px;
 }
