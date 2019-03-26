@@ -19,7 +19,8 @@ class SideEditor extends Component {
     constructor(props) {
         super();
         this.state = {
-            book: (props.book === null) ? DEFAULT_BOOK : props.book
+            book: (props.book === null) ? DEFAULT_BOOK : props.book,
+            imageError: false
         };
     }
 
@@ -49,7 +50,7 @@ class SideEditor extends Component {
                 </p>
                 <p>
                     <label htmlFor="bookImage">Background image url</label>
-                    <input className={this.imageURLIsOk() ? '' : 'red'} value={this.state.book.imgUrl}
+                    <input className={this.imageURLIsOk() && !this.state.imageError ? '' : 'red'} value={this.state.book.imgUrl}
                            onChange={(el) => {
                                this.setState({book: Object.assign({}, this.state.book, {imgUrl: el.target.value})});
                            }} type="text" placeholder="e.g.: http://somehost.com/logo.png" id="bookImage"/>
@@ -57,7 +58,9 @@ class SideEditor extends Component {
                 <p>
                     <button
                         className={this.inputValuesOk() ? '' : 'red'}
-                        onClick={this.saveBook.bind(this)}>Save
+                        onClick={this.inputValuesOk() ? this.saveBook.bind(this) : () => {
+                            console.log('Incorrect input values');
+                        }}>Save
                     </button>
                     <button onClick={() => {
                         this.props.onAsideChange('MENU');
@@ -89,6 +92,7 @@ class SideEditor extends Component {
             .then((response) => {
                 if (response.status !== 200) {
                     console.log('Image don\'t exist');
+                    this.setState({imageError: true});
                     return;
                 }
 
@@ -104,6 +108,7 @@ class SideEditor extends Component {
                         return book;
                     });
                 }
+                this.setState({imageError: false});
                 this.props.onBooksChange(newBooks);
 
             })
