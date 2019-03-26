@@ -1,9 +1,8 @@
 const LibGenerator = {
+        randomDate: (start, end) => {
+            return (new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))).getTime();
+        },
         getLibrary: async (libSize) => {
-            function randomDate(start, end) {
-                return (new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))).getTime();
-            }
-
             /*        const URL = 'http://bti/admin/api/?action=getAllCategories';
                     const myInit = {
                         method: 'HEAD',
@@ -41,7 +40,7 @@ const LibGenerator = {
                     id: Math.trunc(Math.random() * 1000000),
                     name: booksData[i].title,
                     author: booksData[i].poet.name,
-                    date: randomDate(new Date(1900), new Date()),
+                    date: LibGenerator.randomDate(new Date(1900), new Date()),
                     read: (Math.random() > 0.5),
                     rate: Math.trunc(Math.random() * 100),
                     notes: 'Some book',

@@ -3,7 +3,7 @@ import './style.css';
 
 class Pagination extends Component {
     render() {
-           return (
+        return (
             <ul>
                 <li>Pages:</li>
                 {this.showAvailablePages()}
@@ -12,7 +12,10 @@ class Pagination extends Component {
     }
 
     showAvailablePages() {
-        const pagesCount = Math.trunc((this.props.libSize + 1) / this.props.pagination) + 1;
+        let pagesCount = Math.trunc((this.props.libSize + 1) / this.props.pagination);
+        if ((this.props.libSize + 1) % this.props.pagination > 0) {
+            pagesCount++;
+        }
         return (
             [...Array(pagesCount)]
                 .map((e, i) => {

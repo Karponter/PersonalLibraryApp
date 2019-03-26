@@ -6,14 +6,12 @@ import Rate from './Rate';
 import Pagination from './Pagination';
 
 const DEFAULT_ITEM_COUNT = 6;
-const DEFAULT_BOOKS_COUNT = 20;
+const DEFAULT_BOOKS_COUNT = 5;
 
 class BooksLibrary extends Component {
     state = {
-        data: [],
         currentPage: 0
     };
-
 
     render() {
         return (
@@ -21,18 +19,18 @@ class BooksLibrary extends Component {
                 <div className="pages-control">
                     <Pagination setPage={this.setPage.bind(this)}
                                 pagination={(this.props.pagination === '') ? DEFAULT_ITEM_COUNT : this.props.pagination}
-                                libSize={this.getFilteredBooks(this.state.data).length}/>
+                                libSize={this.getFilteredBooks(this.props.books).length}/>
                 </div>
                 <div className="books-list">
                     {this.state.currentPage === 0 ? this.showAddButton() : ''}
-                    {this.getBooks(this.getFilteredBooks(this.state.data))}
+                    {this.getBooks(this.getFilteredBooks(this.props.books))}
                 </div>
             </main>
         );
     }
 
     async componentDidMount() {
-        this.setState({data: await LibGenerator.getLibrary(DEFAULT_BOOKS_COUNT)});
+        this.props.onBooksChange(await LibGenerator.getLibrary(DEFAULT_BOOKS_COUNT));
     }
 
     setPage(pageId) {
@@ -40,7 +38,10 @@ class BooksLibrary extends Component {
     };
 
     showAddButton() {
-        return (<div className="book">
+        return (<div onClick={() => {
+            this.props.onAsideChange('EDIT');
+            this.props.onBookChange(null);
+        }} className="book">
             +
             <div className="book__rate"/>
             <div className="book__name">Add new book</div>
@@ -83,7 +84,6 @@ class BooksLibrary extends Component {
         if (books.length === 0) {
             return;
         }
-        // console.log(this.props);
         const pagination = (this.props.pagination === '') ? DEFAULT_ITEM_COUNT : Number(this.props.pagination);
         let filteredBooks = this.getFilteredBooks(books);
 
@@ -109,11 +109,11 @@ class BooksLibrary extends Component {
 
         for (let bookItem = firstItem; bookItem < lastItem; bookItem++) {
             booksToShow.push(
-                <div className='book' key={bookItem}>
-                    <div onClick={() => {
-                        this.changeBookReadState(filteredBooks[bookItem].id)
-                    }}
-                         className='book__read'>{filteredBooks[bookItem].read ? 'read' : 'unread'}</div>
+                <div onClick={() => {
+                    this.props.onAsideChange('EDIT');
+                    this.props.onBookChange(filteredBooks[bookItem]);
+                }} className='book' key={bookItem}>
+                    <div className='book__read'>{filteredBooks[bookItem].read ? 'read' : 'unread'}</div>
                     <div className='book__date'>{(new Date(filteredBooks[bookItem].date)).getFullYear()}
                     </div>
                     <img src={filteredBooks[bookItem].imgUrl} alt=''/>
@@ -132,6 +132,17 @@ export default connect(
         pagination: state.paginationValue,
         read: state.readValue,
         sort: state.sortValue,
-        sortProperty: state.sortPropertyValue
+        sortProperty: state.sortPropertyValue,
+        books: state.booksValue
     }),
-    dispatch => ({}))(BooksLibrary);
+    dispatch => ({
+        onBookChange: (bookValue) => {
+            dispatch({type: 'CHANGE_BOOK', payload: bookValue})
+        },
+        onBooksChange: (booksValue) => {
+            dispatch({type: 'CHANGE_BOOKS', payload: booksValue})
+        },
+        onAsideChange: (asideValue) => {
+            dispatch({type: 'CHANGE_ASIDE_VALUE', payload: asideValue})
+        }
+    }))(BooksLibrary);
