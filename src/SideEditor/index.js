@@ -28,14 +28,14 @@ class SideEditor extends Component {
             <aside>
                 <p>
                     <label htmlFor="bookName">Book Name</label>
-                    <input value={this.state.book.name}
+                    <input className={this.state.book.name ? '' : 'red'} value={this.state.book.name}
                            onChange={(el) => {
                                this.setState({book: Object.assign({}, this.state.book, {name: el.target.value})});
                            }} type="text" placeholder="e.g.: Alice in wonderland" id="bookName"/>
                 </p>
                 <p>
                     <label htmlFor="bookAuthor">Author</label>
-                    <input value={this.state.book.author}
+                    <input className={this.state.book.author ? '' : 'red'} value={this.state.book.author}
                            onChange={(el) => {
                                this.setState({book: Object.assign({}, this.state.book, {author: el.target.value})});
                            }} type="text" placeholder="e.g.: Lewis Carroll" id="bookAuthor"/>
@@ -49,7 +49,10 @@ class SideEditor extends Component {
                 </p>
                 <p>
                     <label htmlFor="bookImage">Background image url</label>
-                    <input type="text" placeholder="e.g.: http://somehost.com/logo.png" id="bookImage"/>
+                    <input value={this.state.book.imgUrl}
+                           onChange={(el) => {
+                               this.setState({book: Object.assign({}, this.state.book, {imgUrl: el.target.value})});
+                           }} type="text" placeholder="e.g.: http://somehost.com/logo.png" id="bookImage"/>
                 </p>
                 <p>
                     <button
@@ -88,6 +91,7 @@ class SideEditor extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log(nextProps);
         if (nextProps.book === null) {
             this.setState({book: DEFAULT_BOOK});
         } else if (nextProps.book.id !== this.state.book.id) {
