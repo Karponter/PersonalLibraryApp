@@ -19,7 +19,7 @@ class SideEditor extends Component {
     constructor(props) {
         super();
         this.state = {
-            book: (props.book === null) ?  DEFAULT_BOOK : props.book
+            book: (props.book === null) ? DEFAULT_BOOK : props.book
         };
     }
 
@@ -49,15 +49,14 @@ class SideEditor extends Component {
                 </p>
                 <p>
                     <label htmlFor="bookImage">Background image url</label>
-                    <input value={this.state.book.imgUrl}
+                    <input className={this.imageURLIsOk() ? '' : 'red'} value={this.state.book.imgUrl}
                            onChange={(el) => {
                                this.setState({book: Object.assign({}, this.state.book, {imgUrl: el.target.value})});
                            }} type="text" placeholder="e.g.: http://somehost.com/logo.png" id="bookImage"/>
                 </p>
                 <p>
                     <button
-                        className={this.state.book.author && this.state.book.author
-                        && this.rateIsOk() ? '' : 'red'}
+                        className={this.inputValuesOk() ? '' : 'red'}
                         onClick={this.saveBook.bind(this)}>Save
                     </button>
                     <button onClick={() => {
@@ -69,29 +68,53 @@ class SideEditor extends Component {
         )
     }
 
+    inputValuesOk() {
+        return this.state.book.author
+            && this.state.book.author
+            && this.rateIsOk()
+            && this.imageURLIsOk();
+    }
+
     rateIsOk() {
         return (!isNaN(parseInt(this.state.book.rate))) && this.state.book.rate >= 0 && this.state.book.rate <= 100;
     }
 
+    imageURLIsOk() {
+        return (this.state.book.imgUrl.match(/^(http|ftp|https).*(\/).*\.(jpg|jpeg|png|gif)$/) !== null);
+    }
+
 
     saveBook() {
-        let newBooks = this.props.books;
-
-        if (this.state.book.id === null) {
-            newBooks = [...newBooks, this.state.book];
-        } else {
-            newBooks = this.props.books.map((book, index) => {
-                if (book.id === this.state.book.id) {
-                    return this.state.book;
+        fetch('https://cors-anywhere.herokuapp.com/' + this.state.book.imgUrl)
+            .then((response) => {
+                if (response.status !== 200) {
+                    console.log('Image don\'t exist');
+                    return;
                 }
-                return book;
+
+                let newBooks = this.props.books;
+
+                if (this.state.book.id === null) {
+                    newBooks = [this.state.book, ...newBooks];
+                } else {
+                    newBooks = this.props.books.map((book, index) => {
+                        if (book.id === this.state.book.id) {
+                            return this.state.book;
+                        }
+                        return book;
+                    });
+                }
+                this.props.onBooksChange(newBooks);
+
+            })
+            .catch((e) => {
+                console.log('Image test request error');
             });
-        }
-        this.props.onBooksChange(newBooks);
+
+
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
         if (nextProps.book === null) {
             this.setState({book: DEFAULT_BOOK});
         } else if (nextProps.book.id !== this.state.book.id) {

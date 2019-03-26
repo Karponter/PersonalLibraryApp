@@ -14,16 +14,17 @@ class BooksLibrary extends Component {
     };
 
     render() {
+        const filteredBooks = this.getFilteredBooks(this.props.books);
         return (
             <main>
                 <div className="pages-control">
                     <Pagination setPage={this.setPage.bind(this)}
                                 pagination={(this.props.pagination === '') ? DEFAULT_ITEM_COUNT : this.props.pagination}
-                                libSize={this.getFilteredBooks(this.props.books).length}/>
+                                libSize={filteredBooks.length}/>
                 </div>
                 <div className="books-list">
                     {this.state.currentPage === 0 ? this.showAddButton() : ''}
-                    {this.getBooks(this.getFilteredBooks(this.props.books))}
+                    {this.getBooks(filteredBooks)}
                 </div>
             </main>
         );
