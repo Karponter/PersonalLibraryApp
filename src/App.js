@@ -127,11 +127,14 @@ const BookTitle = ({title}) => {
     );
 };
 
+
+
 const BookItem = ({bookItem}) => {
     return (
         <div className="book-item">
             <BookRate rate={bookItem.rate}/>
             <BookTitle title={bookItem.name}/>
+            <img src={bookItem.imgUrl} />
         </div>
     );
 };
@@ -152,7 +155,6 @@ const SortProperty = ({order, property, onSortOrderChange, onSortPropertyChange}
 };
 
 
-
 class Library extends Component {
     constructor() {
         super();
@@ -161,7 +163,7 @@ class Library extends Component {
             books: [],
             search: '',
             page: 0,
-            pagination: 6,
+            pagination: 9,
             sortProperty: 'name',
             sortOrder: true,
             readState: 'All'
@@ -194,14 +196,12 @@ class Library extends Component {
     };
 
     filteredBooks = (books, search, readState) => {
-
-        return books.filter((book, index) => {
-            return book.name.match(search);
-        }).filter((book, index) => {
-            if (readState === 'All') return true;
-            if (readState === 'Read' && book.read) return true;
-            return readState === 'Unread' && !book.read;
-        });
+        return books.filter(book => book.name.match(search))
+            .filter(book => {
+                if (readState === 'All') return true;
+                if (readState === 'Read' && book.read) return true;
+                return readState === 'Unread' && !book.read;
+            });
     };
 
     render() {
