@@ -43,11 +43,11 @@ class Library extends Component {
         this.setState({currentBook: currentBook});
     };
 
-    searchHandle = (search) => {
+    searchHandler = (search) => {
         this.setState({search: search.target.value});
     };
 
-    paginationHandle = (pagination) => {
+    paginationHandler = (pagination) => {
         this.setState({pagination: pagination.target.value});
     };
 
@@ -99,7 +99,19 @@ class Library extends Component {
                                    setCurrentBook={this.setCurrentBook}
                                    books={filteredBooks}/>
                     </div>
-                    {this.state.currentBook === null ? <PanelSearch context={this}/> : <PanelEdit context={this}/>}
+                    {this.state.currentBook === null
+                        ? <PanelSearch
+                            searchHandler={this.searchHandler}
+                            pagination={this.state.pagination}
+                            paginationHendler={this.paginationHandler}
+                            sortOrder={this.state.sortOrder}
+                            sortProperty={this.state.sortProperty}
+                            sortPropertyChange={this.sortPropertyChange}
+                            sortOrderChange={this.sortOrderChange}
+                            readState={this.state.readState}
+                            onReadStateChange={this.readStateChange}
+                        />
+                        : <PanelEdit context={this}/>}
                 </div>
             </div>
         );
