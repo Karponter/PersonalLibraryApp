@@ -1,15 +1,41 @@
 import React from 'react';
+import BookName from './BookName';
+import BookAuthor from "./BookAuthor";
+import BookImgUri from "./BookImgUri";
+import BookRate from "./BookRate";
+import './style.css';
 
-export default function PanelEdit({context}) {
+export default function PanelEdit({currentBookItem, setCurrentBook, onCurrentBookChange}) {
+    // console.log(currentBookItem);
     return (
         <aside>
-            <input
-                type="text" value={context.state.currentBook.name}
-                onChange={(el) => {
-                    context.changeCurrentBook('name', el.target.value);
+            <BookName
+                onBookNameChange={(el) =>
+                    onCurrentBookChange('name', el.target.value)
+                }
+                bookName={currentBookItem ? currentBookItem.name : null}/>
+            <BookAuthor
+                onBookAuthorChange={(el) =>
+                    onCurrentBookChange('author', el.target.value)
+                }
+                bookAuthor={currentBookItem ? currentBookItem.author : null}/>
+            <BookRate
+                className="book-rate"
+                bookRate={currentBookItem.rate}
+                bookTempRate={currentBookItem.tempRate}
+                onBookRateChange={(rate) => {
+                    onCurrentBookChange('rate', rate)
+                }}
+                onBookTempRateChange={(rate) => {
+                    onCurrentBookChange('tempRate', rate)
                 }}/>
-            <button onClick={context.setCurrentBook.bind(null, null)}>Cancel</button>
-            <button onClick={context.setCurrentBook.bind(null, null)}>Save</button>
+            <BookImgUri
+                onBookImgChange={(el) => {
+                    onCurrentBookChange('imgUrl', el.target.value)
+                }}
+                bookUri={currentBookItem ? currentBookItem.imgUrl : null}/>
+            <button onClick={() => setCurrentBook(null)}>Cancel</button>
+            {/*<button onClick={context.setCurrentBook.bind(null, null)}>Save</button>*/}
         </aside>
     );
 };

@@ -37,7 +37,7 @@ class Library extends Component {
         }
     }
 
-    changeCurrentBook = (param, value) => {
+    currentBookChange = (param, value) => {
         const currentBook = this.state.currentBook;
         currentBook[param] = value;
         this.setState({currentBook: currentBook});
@@ -111,7 +111,10 @@ class Library extends Component {
                             readState={this.state.readState}
                             onReadStateChange={this.readStateChange}
                         />
-                        : <PanelEdit context={this}/>}
+                        : <PanelEdit
+                            currentBookItem={this.state.currentBook}
+                            onCurrentBookChange={this.currentBookChange}
+                            setCurrentBook={this.setCurrentBook}/>}
                 </div>
             </div>
         );
