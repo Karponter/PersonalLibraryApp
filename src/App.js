@@ -81,6 +81,18 @@ class Library extends Component {
             });
     };
 
+    onSaveCurrentBookItem = () => {
+        const bookToSave = Object.assign({}, this.state.currentBook);
+        delete bookToSave.tempRate;
+        const newBooks = this.state.books.map((bookItem) => {
+            if (bookItem.id === bookToSave.id) {
+                return bookToSave;
+            }
+            return bookItem;
+        });
+      this.setState({books: newBooks});
+    };
+
 
     render() {
         const filteredBooks = this.filteredBooks(this.state.books, this.state.search, this.state.readState);
@@ -114,7 +126,8 @@ class Library extends Component {
                         : <PanelEdit
                             currentBookItem={this.state.currentBook}
                             onCurrentBookChange={this.currentBookChange}
-                            setCurrentBook={this.setCurrentBook}/>}
+                            setCurrentBook={this.setCurrentBook}
+                            onSaveCurrentBookItem={this.onSaveCurrentBookItem}/>}
                 </div>
             </div>
         );

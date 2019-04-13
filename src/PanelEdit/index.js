@@ -5,7 +5,10 @@ import BookImgUri from "./BookImgUri";
 import BookRate from "./BookRate";
 import './style.css';
 
-export default function PanelEdit({currentBookItem, setCurrentBook, onCurrentBookChange}) {
+export default function PanelEdit({
+                                      currentBookItem, setCurrentBook,
+                                      onCurrentBookChange, onSaveCurrentBookItem
+                                  }) {
     // console.log(currentBookItem);
     return (
         <aside>
@@ -35,7 +38,7 @@ export default function PanelEdit({currentBookItem, setCurrentBook, onCurrentBoo
                 }}
                 bookUri={currentBookItem ? currentBookItem.imgUrl : null}/>
             <button onClick={() => setCurrentBook(null)}>Cancel</button>
-            {/*<button onClick={context.setCurrentBook.bind(null, null)}>Save</button>*/}
+            <button onClick={() => onSaveCurrentBookItem()}>Save</button>
         </aside>
     );
 };
