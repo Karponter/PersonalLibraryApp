@@ -4,27 +4,6 @@
     flex-direction: column;
 }
 
-nav {
-    display: flex;
-    background-color: #313030;
-    justify-content: space-between;
-    align-items: center;
-    height: 60px;
-    padding: 0 1rem;
-    font-family: Arial, serif;
-}
-
-nav h1 {
-    margin: 0;
-    font-weight: normal;
-    color: white;
-}
-
-nav span {
-    color: #e3e18c;
-    margin-right: 1rem;
-    font-size: 1rem;
-}
 
 button {
     background: none;

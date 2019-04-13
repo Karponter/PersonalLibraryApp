@@ -3,16 +3,16 @@ export default function (libSize = 25) {
         return (new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))).getTime();
     }
     const bookImages = [
-        require('./assets/images/0.jpg'),
-        require('./assets/images/1.jpg'),
-        require('./assets/images/2.jpg'),
-        require('./assets/images/3.jpg'),
-        require('./assets/images/4.jpg'),
-        require('./assets/images/5.jpg'),
-        require('./assets/images/6.jpg'),
-        require('./assets/images/7.jpg'),
-        require('./assets/images/8.jpg'),
-        require('./assets/images/9.jpg')
+        '/assets/images/0.jpg',
+        'assets/images/1.jpg',
+        '/assets/images/2.jpg',
+        '/assets/images/3.jpg',
+        '/assets/images/4.jpg',
+        '/assets/images/5.jpg',
+        '/assets/images/6.jpg',
+        '/assets/images/7.jpg',
+        '/assets/images/8.jpg',
+        '/assets/images/9.jpg'
     ];
 
     return [...Array(libSize)].map((element, index) => {
@@ -24,7 +24,7 @@ export default function (libSize = 25) {
             read: (Math.random() > 0.5),
             rate: Math.trunc(Math.random() * 100),
             notes: 'Some book',
-            imgUrl: bookImages[Math.trunc(Math.random()*(bookImages.length-1))]
+            imgUrl: bookImages[Math.trunc(Math.random() * (bookImages.length - 1))]
         }
     });
 }

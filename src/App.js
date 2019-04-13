@@ -8,152 +8,18 @@ import {
     faSortDown
 } from '@fortawesome/free-solid-svg-icons'
 import {faStar as faStarRegular} from '@fortawesome/free-regular-svg-icons'
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+
+import Header from './Header';
+import PanelSearch from './PanelSearch';
+import PanelEdit from './PanelEdit';
+import PagesControl from './PagesControl';
+import BooksList from './BookItem/BooksList';
 
 library.add(
     faStarSolid,
     faStarRegular,
     faSortUp,
     faSortDown);
-
-
-const Header = () => {
-    return (
-        <nav>
-            <h1>
-                MyLib
-            </h1>
-            <div>
-                <span>testuser@test.com</span>
-                <button>Log out</button>
-            </div>
-        </nav>
-    );
-};
-
-const Search = ({onSearchChange}) => {
-    return (
-        <p className="inputFiled">
-            <label htmlFor="search">Search</label>
-            <input id="search" onChange={onSearchChange} type="text"/>
-        </p>
-    );
-};
-
-
-const Pagination = ({onPaginationChange, pagination}) => {
-    const paginationValues = [6, 9, 12, 18, 36];
-    return (
-        <p className="inputFiled">
-            <label htmlFor="pagination">Pagination</label>
-            <select id="pagination" value={pagination} onChange={onPaginationChange}>
-                {paginationValues.map((value, index) => <option key={index}>{value}</option>)}
-            </select>
-        </p>
-    );
-};
-
-const ReadState = ({onReadStateChange, readState}) => {
-    const readStates = ['All', 'Read', 'Unread'];
-    return (
-        <p>
-            <label htmlFor="read">Read state</label>
-            <select value={readState} onChange={onReadStateChange} id="read">
-                {readStates.map((state, index) => <option key={index}>{state}</option>)}
-            </select>
-        </p>
-    );
-
-};
-
-const PagesControl = ({libSize, pagination, onPageChange}) => {
-    let pagesCount = Math.trunc(libSize / pagination);
-    pagesCount = (pagesCount * pagination !== libSize) ? pagesCount + 1 : pagesCount;
-    const pages = [...Array(pagesCount)].map((el, index) =>
-        <li key={index} onClick={() => {
-            onPageChange(index);
-        }}>{index}</li>);
-    return (
-        <ul className="page-control">
-            Pages: {pages}
-        </ul>
-    );
-};
-
-const BooksList = ({books, page, pagination, sortOrder, sortProperty}) => {
-    books.sort((a, b) => {
-        if (typeof a[sortProperty] === 'string') {
-            return a[sortProperty].localeCompare(b[sortProperty]) * (sortOrder ? 1 : -1);
-        }
-        if (typeof a[sortProperty] === 'number') {
-            return (a[sortProperty] - b[sortProperty]) * (sortOrder ? 1 : -1);
-        }
-        return false;
-    });
-
-    const getActualBooks = () => {
-        return books.map((book, index) => {
-                if ((index < page * pagination)
-                    || (index > ((page + 1) * pagination) - 1)) {
-                    return false;
-                }
-                return (<BookItem key={index} bookItem={book}/>);
-            }
-        )
-    };
-
-    return (
-        <div className="books-list">
-            {getActualBooks()}
-        </div>
-    );
-};
-
-const BookRate = ({rate}) => {
-    const stars = Math.trunc(rate / 20);
-    return (
-        <div className="book-item__rate">
-            {[...Array(stars)].map((el, ind) => <FontAwesomeIcon key={ind} icon={faStarSolid}/>)}
-            {[...Array(5 - stars)].map((el, ind) => <FontAwesomeIcon key={ind} icon={faStarRegular}/>)}
-        </div>
-    );
-};
-
-const BookTitle = ({title}) => {
-    return (
-        <div className="book-item__title">
-            {title}
-        </div>
-    );
-};
-
-
-
-const BookItem = ({bookItem}) => {
-    return (
-        <div className="book-item">
-            <BookRate rate={bookItem.rate}/>
-            <BookTitle title={bookItem.name}/>
-            <img src={bookItem.imgUrl} />
-        </div>
-    );
-};
-
-const SortProperty = ({order, property, onSortOrderChange, onSortPropertyChange}) => {
-    const sortProperties = ['name', 'rate', 'author', 'date'];
-    return (
-        <p>
-            <label htmlFor="property">Sort</label>
-            <select className="sort-select" id="property"
-                    value={property}
-                    onChange={onSortPropertyChange}>
-                {sortProperties.map((property, index) => <option key={index}>{property}</option>)}
-            </select>
-            <FontAwesomeIcon className="sort-order" onClick={onSortOrderChange} icon={order ? faSortUp : faSortDown}/>
-        </p>
-    );
-};
-
 
 class Library extends Component {
     constructor() {
@@ -166,9 +32,16 @@ class Library extends Component {
             pagination: 9,
             sortProperty: 'name',
             sortOrder: true,
-            readState: 'All'
+            readState: 'All',
+            currentBook: null
         }
     }
+
+    changeCurrentBook = (param, value) => {
+        const currentBook = this.state.currentBook;
+        currentBook[param] = value;
+        this.setState({currentBook: currentBook});
+    };
 
     searchHandle = (search) => {
         this.setState({search: search.target.value});
@@ -178,7 +51,7 @@ class Library extends Component {
         this.setState({pagination: pagination.target.value});
     };
 
-    pageChangeHandle = (page) => {
+    pageChangeHandler = (page) => {
         this.setState({page: page});
     };
 
@@ -195,6 +68,10 @@ class Library extends Component {
         this.setState({readState: readState.target.value});
     };
 
+    setCurrentBook = (book) => {
+        this.setState({currentBook: book});
+    };
+
     filteredBooks = (books, search, readState) => {
         return books.filter(book => book.name.match(search))
             .filter(book => {
@@ -204,6 +81,7 @@ class Library extends Component {
             });
     };
 
+
     render() {
         const filteredBooks = this.filteredBooks(this.state.books, this.state.search, this.state.readState);
         return (
@@ -211,26 +89,17 @@ class Library extends Component {
                 <Header/>
                 <div className="library-container">
                     <div className="library-content">
-                        <PagesControl onPageChange={this.pageChangeHandle}
+                        <PagesControl onPageChange={this.pageChangeHandler}
                                       pagination={this.state.pagination}
                                       libSize={filteredBooks.length}/>
                         <BooksList sortProperty={this.state.sortProperty}
                                    sortOrder={this.state.sortOrder}
                                    page={this.state.page}
                                    pagination={this.state.pagination}
+                                   setCurrentBook={this.setCurrentBook}
                                    books={filteredBooks}/>
                     </div>
-                    <aside>
-                        <Search onSearchChange={this.searchHandle.bind(this)}/>
-                        <Pagination pagination={this.state.pagination}
-                                    onPaginationChange={this.paginationHandle.bind(this)}/>
-                        <SortProperty order={this.state.sortOrder}
-                                      property={this.state.sortProperty}
-                                      onSortPropertyChange={this.sortPropertyChange.bind(this)}
-                                      onSortOrderChange={this.sortOrderChange.bind(this)}/>
-                        <ReadState readState={this.state.readState}
-                                   onReadStateChange={this.readStateChange.bind(this)}/>
-                    </aside>
+                    {this.state.currentBook === null ? <PanelSearch context={this}/> : <PanelEdit context={this}/>}
                 </div>
             </div>
         );
