@@ -3,3 +3,7 @@
     font-size: 28px;
     cursor: pointer;
 }
+
+.error-rate {
+    color: red;
+}

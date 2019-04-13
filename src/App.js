@@ -13,7 +13,7 @@ import Header from './Header';
 import PanelSearch from './PanelSearch';
 import PanelEdit from './PanelEdit';
 import PagesControl from './PagesControl';
-import BooksList from './BookItem/BooksList';
+import BooksList from './BooksList';
 
 library.add(
     faStarSolid,
@@ -56,7 +56,6 @@ class Library extends Component {
     };
 
     sortPropertyChange = (sortProperty) => {
-        console.log(sortProperty.target.value);
         this.setState({sortProperty: sortProperty.target.value});
     };
 
@@ -84,13 +83,21 @@ class Library extends Component {
     onSaveCurrentBookItem = () => {
         const bookToSave = Object.assign({}, this.state.currentBook);
         delete bookToSave.tempRate;
-        const newBooks = this.state.books.map((bookItem) => {
-            if (bookItem.id === bookToSave.id) {
-                return bookToSave;
-            }
-            return bookItem;
-        });
-      this.setState({books: newBooks});
+
+        let newBooks;
+        if (bookToSave.id === null) {
+            bookToSave.id = Math.trunc(Math.random() * 1000000);
+            newBooks = [...this.state.books, bookToSave];
+        } else {
+            newBooks = this.state.books.map((bookItem) => {
+                if (bookItem.id === bookToSave.id) {
+                    return bookToSave;
+                }
+                return bookItem;
+            });
+        }
+        this.setState({books: newBooks});
+        this.setState({currentBook: Object.assign({}, bookToSave)});
     };
 
 
@@ -134,6 +141,7 @@ class Library extends Component {
     }
 
     componentDidMount() {
+
         this.setState({books: Lib(20)});
     }
 }

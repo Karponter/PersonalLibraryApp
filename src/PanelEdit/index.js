@@ -4,27 +4,27 @@ import BookAuthor from "./BookAuthor";
 import BookImgUri from "./BookImgUri";
 import BookRate from "./BookRate";
 import './style.css';
+import ButtonSave from "./ButtonSave";
 
 export default function PanelEdit({
                                       currentBookItem, setCurrentBook,
                                       onCurrentBookChange, onSaveCurrentBookItem
                                   }) {
-    // console.log(currentBookItem);
     return (
         <aside>
             <BookName
                 onBookNameChange={(el) =>
                     onCurrentBookChange('name', el.target.value)
                 }
-                bookName={currentBookItem ? currentBookItem.name : null}/>
+                bookName={currentBookItem.name ? currentBookItem.name : ''}/>
             <BookAuthor
                 onBookAuthorChange={(el) =>
                     onCurrentBookChange('author', el.target.value)
                 }
-                bookAuthor={currentBookItem ? currentBookItem.author : null}/>
+                bookAuthor={currentBookItem.author ? currentBookItem.author : ''}/>
             <BookRate
                 className="book-rate"
-                bookRate={currentBookItem.rate}
+                bookRate={currentBookItem.rate ? currentBookItem.rate : 0}
                 bookTempRate={currentBookItem.tempRate}
                 onBookRateChange={(rate) => {
                     onCurrentBookChange('rate', rate)
@@ -36,9 +36,11 @@ export default function PanelEdit({
                 onBookImgChange={(el) => {
                     onCurrentBookChange('imgUrl', el.target.value)
                 }}
-                bookUri={currentBookItem ? currentBookItem.imgUrl : null}/>
+                bookUri={currentBookItem.imgUrl ? currentBookItem.imgUrl : ''}/>
             <button onClick={() => setCurrentBook(null)}>Cancel</button>
-            <button onClick={() => onSaveCurrentBookItem()}>Save</button>
+            <ButtonSave
+                onSaveCurrentBookItem={onSaveCurrentBookItem}
+                currentBookItem={currentBookItem}/>
         </aside>
     );
 };

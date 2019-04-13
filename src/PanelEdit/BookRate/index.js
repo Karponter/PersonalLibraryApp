@@ -7,6 +7,7 @@ import './style.css';
 export default function BookRate({bookRate, bookTempRate, onBookRateChange, onBookTempRateChange}) {
     const percentPerStar = 20;
     const stars = Math.trunc(bookTempRate / percentPerStar);
+
     return (
         <p className='book-rate'>
             {[...Array(5)].map((el, ind) => {
@@ -24,7 +25,8 @@ export default function BookRate({bookRate, bookTempRate, onBookRateChange, onBo
                               onBookRateChange(bookTempRate);
                           }}
                     >
-                <FontAwesomeIcon icon={ind <= stars - 1 ? faStarSolid : faStarRegular}/>
+                <FontAwesomeIcon
+                    icon={ind <= stars - 1 ? faStarSolid : faStarRegular}/>
                 </span>
                 );
             })}
