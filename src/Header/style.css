@@ -6,6 +6,11 @@ nav {
     height: 60px;
     padding: 0 1rem;
     font-family: Arial, serif;
+
+}
+
+nav a {
+    text-decoration: none;
 }
 
 nav h1 {

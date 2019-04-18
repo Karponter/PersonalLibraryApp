@@ -7,7 +7,7 @@ import ReadState from './ReadState';
 
 export default function PanelSearch({
                                         searchHandler,
-                                        pagination, paginationHendler,
+                                        pagination, paginationHandler,
                                         sortOrder, sortProperty, sortPropertyChange, sortOrderChange,
                                         readState, onReadStateChange
                                     }) {
@@ -15,7 +15,7 @@ export default function PanelSearch({
         <aside>
             <Search onSearchChange={searchHandler}/>
             <Pagination pagination={pagination}
-                        onPaginationChange={paginationHendler}/>
+                        onPaginationChange={paginationHandler}/>
             <SortProperty order={sortOrder}
                           property={sortProperty}
                           onSortPropertyChange={sortPropertyChange}

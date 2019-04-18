@@ -2,6 +2,20 @@ export default function (libSize = 25) {
     function randomDate(start, end) {
         return (new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))).getTime();
     }
+
+    const getEmptyBook = () =>  {
+        return {
+            id: null,
+            name: null,
+            author: null,
+            date: null,
+            read: null,
+            rate: null,
+            notes: null,
+            imgUrl: null
+        }
+    };
+
     const bookImages = [
         '/assets/images/0.jpg',
         '/assets/images/1.jpg',
@@ -15,18 +29,18 @@ export default function (libSize = 25) {
         '/assets/images/9.jpg'
     ];
 
-    const location = window.location.href.replace(/\/$/,'');
+    const location = window.location.host;
 
     return [...Array(libSize)].map((element, index) => {
         return {
-            id: Math.trunc(Math.random() * 1000000),
+            id: index,
             name: `Book name ${index}`,
-            author: `Author name ${String.fromCharCode(97+index)}`,
+            author: `Author name ${String.fromCharCode(97 + index)}`,
             date: randomDate(new Date(1900), new Date()),
             read: (Math.random() > 0.5),
             rate: Math.trunc(Math.random() * 100),
             notes: 'Some book',
-            imgUrl: location + bookImages[Math.trunc(Math.random() * (bookImages.length - 1))]
+            imgUrl: 'http://' + location + bookImages[Math.trunc(Math.random() * (bookImages.length - 1))]
         }
     });
 }

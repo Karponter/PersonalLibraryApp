@@ -14,6 +14,8 @@ import PanelSearch from './PanelSearch';
 import PanelEdit from './PanelEdit';
 import PagesControl from './PagesControl';
 import BooksList from './BooksList';
+import {Route, Switch} from "react-router-dom";
+import Lib2 from './test';
 
 library.add(
     faStarSolid,
@@ -26,14 +28,14 @@ class Library extends Component {
         super();
 
         this.state = {
-            books: [],
+            books: Lib(20),
             search: '',
             page: 0,
             pagination: 9,
             sortProperty: 'name',
             sortOrder: true,
             readState: 'All',
-            currentBook: null
+            currentBook: Lib2.getEmptyBook()
         }
     }
 
@@ -106,6 +108,7 @@ class Library extends Component {
         return (
             <div className="App">
                 <Header/>
+
                 <div className="library-container">
                     <div className="library-content">
                         <PagesControl onPageChange={this.pageChangeHandler}
@@ -118,32 +121,39 @@ class Library extends Component {
                                    setCurrentBook={this.setCurrentBook}
                                    books={filteredBooks}/>
                     </div>
-                    {this.state.currentBook === null
-                        ? <PanelSearch
+                    <Switch>
+                        <Route path="/edit/:book" render={(props) => <PanelEdit
+                            {...props}
+                            books={this.state.books}
+                            currentBook={this.state.currentBook}
+                            onCurrentBookChange={this.currentBookChange}
+                            setCurrentBook={this.setCurrentBook}
+                            onSaveCurrentBookItem={this.onSaveCurrentBookItem}
+                        />}/>
+                        <Route path="/edit" render={(props) => <PanelEdit
+                            {...props}
+                            onCurrentBookChange={this.currentBookChange}
+                            setCurrentBook={this.setCurrentBook}
+                            onSaveCurrentBookItem={this.onSaveCurrentBookItem}
+                        />}/>
+                        <Route path="/" render={(props) => <PanelSearch
+                            {...props}
                             searchHandler={this.searchHandler}
                             pagination={this.state.pagination}
-                            paginationHendler={this.paginationHandler}
+                            paginationHandler={this.paginationHandler}
                             sortOrder={this.state.sortOrder}
                             sortProperty={this.state.sortProperty}
                             sortPropertyChange={this.sortPropertyChange}
                             sortOrderChange={this.sortOrderChange}
                             readState={this.state.readState}
                             onReadStateChange={this.readStateChange}
-                        />
-                        : <PanelEdit
-                            currentBookItem={this.state.currentBook}
-                            onCurrentBookChange={this.currentBookChange}
-                            setCurrentBook={this.setCurrentBook}
-                            onSaveCurrentBookItem={this.onSaveCurrentBookItem}/>}
+                        />}/>
+                    </Switch>
                 </div>
             </div>
         );
     }
 
-    componentDidMount() {
-
-        this.setState({books: Lib(20)});
-    }
 }
 
 export default Library;
