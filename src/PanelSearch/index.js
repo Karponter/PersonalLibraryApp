@@ -13,15 +13,15 @@ export default function PanelSearch({
                                     }) {
     return (
         <aside>
-            <Search onSearchChange={searchHandler}/>
+            <Search onSearchChange={el => searchHandler(el.target.value)}/>
             <Pagination pagination={pagination}
-                        onPaginationChange={paginationHandler}/>
+                        onPaginationChange={el => paginationHandler(el.target.value)}/>
             <SortProperty order={sortOrder}
                           property={sortProperty}
                           onSortPropertyChange={sortPropertyChange}
                           onSortOrderChange={sortOrderChange}/>
             <ReadState readState={readState}
-                       onReadStateChange={onReadStateChange}/>
+                       onReadStateChange={el => onReadStateChange(el.target.value)}/>
         </aside>
-    );
+);
 };

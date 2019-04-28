@@ -1,12 +1,15 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {faStar as faStarSolid} from "@fortawesome/free-solid-svg-icons/index";
 import {faStar as faStarRegular} from "@fortawesome/free-regular-svg-icons/index";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import './style.css';
 
-export default function BookRate({bookRate, bookTempRate, onBookRateChange, onBookTempRateChange}) {
+export default function BookRate({bookRate, onBookRateChange}) {
+    const [rate, setRate] = useState(bookRate);
+    useEffect(() => setRate(bookRate), [bookRate]);
+
     const percentPerStar = 20;
-    const stars = Math.trunc(bookTempRate / percentPerStar);
+    const stars = Math.trunc(rate / percentPerStar);
 
     return (
         <p className='book-rate'>
@@ -14,15 +17,14 @@ export default function BookRate({bookRate, bookTempRate, onBookRateChange, onBo
                 return (
                     <span key={ind}
                           onMouseEnter={() => {
-                              if (stars !== ind + 1) {
-                                  onBookTempRateChange((ind + 1) * percentPerStar);
-                              }
+                              setRate((ind + 1) * percentPerStar);
                           }}
                           onMouseLeave={() => {
-                              onBookTempRateChange(bookRate);
+                              setRate(bookRate);
                           }}
+
                           onClick={() => {
-                              onBookRateChange(bookTempRate);
+                              onBookRateChange(rate);
                           }}
                     >
                 <FontAwesomeIcon
@@ -30,7 +32,7 @@ export default function BookRate({bookRate, bookTempRate, onBookRateChange, onBo
                 </span>
                 );
             })}
-
         </p>
     );
-};
+}
+;

@@ -5,3 +5,9 @@
 .error {
     border-bottom: 1px solid red;
 }
+
+.book-error {
+    text-align: center;
+    font-weight: bold;
+    color: #FF0000;
+}

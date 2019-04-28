@@ -4,11 +4,10 @@ import BookTitle from './BookTitle';
 import './style.css';
 import {Link} from "react-router-dom";
 
-export default function BookItem({bookItem, setCurrentBook}) {
+export default function BookItem({bookItem}) {
     return (
         <Link className="book-item"
-              onClick={() => setCurrentBook(Object.assign({}, bookItem, {'tempRate': bookItem.rate}))}
-              to={`/edit/${bookItem.id}`}>
+              to={`/edit/${bookItem.id !== null ? bookItem.id : ''}`}>
             {bookItem.rate ? <BookRate rate={bookItem.rate}/> : ''}
             {bookItem.name ? <BookTitle title={bookItem.name}/> : ''}
             {bookItem.id || bookItem.imgUrl

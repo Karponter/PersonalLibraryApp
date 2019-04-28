@@ -3,19 +3,6 @@ export default function (libSize = 25) {
         return (new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))).getTime();
     }
 
-    const getEmptyBook = () =>  {
-        return {
-            id: null,
-            name: null,
-            author: null,
-            date: null,
-            read: null,
-            rate: null,
-            notes: null,
-            imgUrl: null
-        }
-    };
-
     const bookImages = [
         '/assets/images/0.jpg',
         '/assets/images/1.jpg',
@@ -44,3 +31,17 @@ export default function (libSize = 25) {
         }
     });
 }
+
+
+export const getEmptyBook = () =>  {
+    return {
+        id: null,
+        name: null,
+        author: null,
+        date: null,
+        read: null,
+        rate: null,
+        notes: null,
+        imgUrl: null
+    }
+};
