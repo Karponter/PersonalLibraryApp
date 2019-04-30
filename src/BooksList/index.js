@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import BookItem from '../BookItem/index';
 import './style.css';
-import {getEmptyBook} from "../Lib";
+import LibraryContext from '../LibraryContext';
 
 export default function BooksList({books, page, pagination}) {
 
+    const bookLibrary = useContext(LibraryContext);
     const getActualBooks = (books) => {
         return books.map((book, index) => {
                 if ((index < page * pagination)
@@ -20,7 +21,7 @@ export default function BooksList({books, page, pagination}) {
 
     return (
         <div className="books-list">
-            {getActualBooks([getEmptyBook(), ...books])}
+            {getActualBooks([bookLibrary.getEmptyBook(), ...books])}
         </div>
     );
 };

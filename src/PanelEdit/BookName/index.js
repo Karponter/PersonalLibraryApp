@@ -1,18 +1,25 @@
-import React from 'react';
+import React, {useState} from 'react';
 
-export default function BookName({onBookNameChange, bookName}) {
+export default function BookName({onBookNameChange, bookName, setGlobalError}) {
+    const [error, setError] = useState(false);
+
     const nameCheck = (name) => {
-        return name;
+        const error = !name;
+        setGlobalError(error);
+        return error;
     };
 
     return (
         <p>
             <label form="bookName">Book Name</label>
             <input
-                className={nameCheck(bookName) ? '' : 'error'}
+                className={error ? 'error' : ''}
                 id="bookName"
                 type="text" value={bookName}
-                onChange={onBookNameChange}
+                onChange={(el) => {
+                    setError(nameCheck(el.target.value));
+                    onBookNameChange(el);
+                }}
                 placeholder="e.g.: Alice in  wonderland"/>
         </p>
     );

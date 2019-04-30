@@ -15,6 +15,7 @@ export default function PanelEdit({match}) {
     const [bookAuthor, setBookAuthor] = useState('');
     const [bookRate, setBookRate] = useState(0);
     const [bookImgUrl, setBookImgUrl] = useState('');
+    const [error, setError] = useState('');
 
     const parseUrl = match.url.split('/');
     const bookId = (parseUrl[2] ? parseUrl[2] : null);
@@ -54,12 +55,16 @@ export default function PanelEdit({match}) {
 
     return (
         <aside>
-            {bookId ? '' : <p className="book-error">Book id#{bookId} don't found</p>}
+            {bookId && editingBook.id === null
+                ? <p className="book-error">Book id#{bookId} don't found</p>
+                : ''}
             <BookName
                 onBookNameChange={el => setBookName(el.target.value)}
+                setGlobalError={setError}
                 bookName={bookName}/>
             <BookAuthor
                 onBookAuthorChange={el => setBookAuthor(el.target.value)}
+                setGlobalError={setError}
                 bookAuthor={bookAuthor}/>
             <BookRate
                 className="book-rate"
@@ -67,15 +72,23 @@ export default function PanelEdit({match}) {
                 onBookRateChange={rate => setBookRate(rate)}/>
             <BookImgUri
                 onBookImgChange={el => setBookImgUrl(el.target.value)}
+                setGlobalError={setError}
                 bookUri={bookImgUrl}/>
-            <Link to="/">
-                <button>Cancel</button>
-            </Link>
-            <Link to="/">
-                <button onClick={() => saveBook(margeEditingBook())}>
-                    Save
-                </button>
-            </Link>
+            <form className="btn-control">
+                <Link to="/">
+                    {(!bookId && editingBook.id === null) || (bookId && editingBook.id !== null)
+                        ? <button
+                            className={error ? 'book-error' : ''}
+                            onClick={() => saveBook(margeEditingBook())}>
+                            {!bookId && editingBook.id === null ? 'Add' : 'Save'}
+                        </button>
+                        : ''}
+                    {bookId && editingBook.id !== null
+                        ? <button onClick={() => booksLibrary.deleteBook(bookId)}>Delete</button>
+                        : ''}
+                    <button>Cancel</button>
+                </Link>
+            </form>
         </aside>
     );
 }

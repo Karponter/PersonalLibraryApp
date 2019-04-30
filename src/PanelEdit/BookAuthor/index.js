@@ -1,17 +1,25 @@
-import React from 'react';
+import React, {useState} from 'react';
 
-export default function BookAuthor({onBookAuthorChange, bookAuthor}) {
+export default function BookAuthor({onBookAuthorChange, bookAuthor, setGlobalError}) {
+    const [error, setError] = useState(false);
+
     const authorCheck = (author) => {
-        return author.match(/^[a-zA-Z ]+$/);
+        const error = !author.match(/^[a-zA-Z ]+$/);
+        setGlobalError(error);
+        return error;
     };
+
     return (
         <p>
             <label form="bookAuthor">Author</label>
             <input
-                className={authorCheck(bookAuthor) ? '' : 'error'}
+                className={error ? 'error' : ''}
                 id="bookAuthor"
                 type="text" value={bookAuthor}
-                onChange={onBookAuthorChange}
+                onChange={ (el) => {
+                    setError(authorCheck(el.target.value));
+                    onBookAuthorChange(el);
+                }}
                 placeholder="e.g.: Lewis Carroll"/>
         </p>
     );

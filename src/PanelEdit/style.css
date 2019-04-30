@@ -11,3 +11,11 @@
     font-weight: bold;
     color: #FF0000;
 }
+
+.btn-control {
+    text-align: center;
+}
+
+.btn-control button {
+    margin-bottom: 0.5rem;
+}

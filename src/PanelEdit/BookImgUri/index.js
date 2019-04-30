@@ -1,18 +1,25 @@
-import React from 'react';
+import React, {useState} from 'react';
 
-export default function BookImgUri({onBookImgChange, bookUri}) {
+export default function BookImgUri({onBookImgChange, bookUri, setGlobalError}) {
+    const [error, setError] = useState(false);
+
     const urlCheck = (url) => {
-        return url.match(/^http[s]?:\/\/.+\/.*\.(png|jpg|jpeg|gif)$/);
+        const error = !url.match(/^http[s]?:\/\/.+\/.*\.(png|jpg|jpeg|gif)$/);
+        setGlobalError(error);
+        return error;
     };
 
     return (
         <p>
             <label form="bookImg">Background Image URL</label>
             <input
-                className={urlCheck(bookUri) ? '' : 'error'}
+                className={error ? 'error' : ''}
                 id="bookImg"
                 type="text" value={bookUri}
-                onChange={onBookImgChange}
+                onChange={(el) => {
+                    setError(urlCheck(el.target.value));
+                    onBookImgChange(el);
+                }}
                 placeholder="e.g.: http://www.somehost.com/logo.png"/>
         </p>
     );

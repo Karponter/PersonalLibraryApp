@@ -56,8 +56,12 @@ class BookLibrary {
         });
     }
 
+    getMaxBookId() {
+        return Math.max(...this.books.map(el => el.id));
+    }
+
     addBook(book) {
-        book.id = this.books.length;
+        book.id = this.getMaxBookId() + 1;
         book.date = this.randomDate(new Date(1900), new Date());
         book.read = (Math.random() > 0.5);
         book.notes = 'Some book';
@@ -68,6 +72,11 @@ class BookLibrary {
 
     doseBookExist(book) {
         return this.books.find(el => el.id === book.id);
+    }
+
+    deleteBook(bookId) {
+        this.books = this.books.filter(currentBook => currentBook.id !== Number(bookId));
+        this.changeFunction();
     }
 
     getEmptyBook() {
