@@ -5,8 +5,8 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import './style.css';
 
 export default function BookRate({bookRate, onBookRateChange}) {
-    const [rate, setRate] = useState(bookRate);
-    useEffect(() => setRate(bookRate), [bookRate]);
+    const [rate, setRate] = useState();
+    useEffect(() => setRate(bookRate), bookRate);
 
     const percentPerStar = 20;
     const stars = Math.trunc(rate / percentPerStar);

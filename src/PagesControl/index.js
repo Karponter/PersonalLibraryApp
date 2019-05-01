@@ -1,11 +1,10 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import './style.css';
-import LibraryContext from "../LibraryContext";
 
-export default function PagesControl({pagination, onPageChange}) {
+export default function PagesControl({pagination, onPageChange, libSize}) {
 
     const PLUS_EMPTY_BOOK = 1;
-    const librarySize = useContext(LibraryContext).getBooks().length + PLUS_EMPTY_BOOK;
+    const librarySize = libSize + PLUS_EMPTY_BOOK;
 
     let pagesCount = Math.trunc(librarySize / pagination);
     pagesCount = (pagesCount * pagination !== librarySize) ? pagesCount + 1 : pagesCount;

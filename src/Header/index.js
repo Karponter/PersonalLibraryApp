@@ -1,8 +1,12 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import './style.css';
 import {Link} from "react-router-dom";
+import FirebaseContext from '../FirebaseContext';
 
-export default function Header() {
+export default function Header({userEmail}) {
+    const firebase = useContext(FirebaseContext);
+
+
     return (
         <nav>
             <Link to="/">
@@ -10,10 +14,12 @@ export default function Header() {
                     MyLib
                 </h1>
             </Link>
-            <div>
-                <span>testuser@test.com</span>
-                <button>Log out</button>
-            </div>
+            {userEmail !== ''
+                ? <div>
+                    <span>{userEmail}</span>
+                    <button onClick={firebase.signOut}>Log out</button>
+                </div>
+                : ''}
         </nav>
     );
 }

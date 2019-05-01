@@ -5,11 +5,12 @@ import BookImgUri from "./BookImgUri";
 import BookRate from "./BookRate";
 import './style.css';
 import {Link} from "react-router-dom";
-import LibraryContext from "../LibraryContext";
+import {getEmptyBook, makeBookRandom} from '../Library';
+import {FirebaseContext} from '../Firebase';
 
-export default function PanelEdit({match}) {
-    const booksLibrary = useContext(LibraryContext);
+export default function PanelEdit({match, books}) {
 
+    const firebase = useContext(FirebaseContext);
     const [currentBookId, setCurrentBookId] = useState(null);
     const [bookName, setBookName] = useState('');
     const [bookAuthor, setBookAuthor] = useState('');
@@ -17,12 +18,11 @@ export default function PanelEdit({match}) {
     const [bookImgUrl, setBookImgUrl] = useState('');
     const [error, setError] = useState('');
 
-    const parseUrl = match.url.split('/');
-    const bookId = (parseUrl[2] ? parseUrl[2] : null);
+    const bookId = (match.params.book ? match.params.book : null);
 
     let editingBook;
-    if (!bookId || !(editingBook = booksLibrary.getBook(bookId))) {
-        editingBook = booksLibrary.getEmptyBook();
+    if (!bookId || !(editingBook = books.find(el => el.id === bookId))) {
+        editingBook = getEmptyBook();
     }
 
     useEffect(() => {
@@ -46,10 +46,10 @@ export default function PanelEdit({match}) {
     };
 
     const saveBook = (book) => {
-        if (booksLibrary.doseBookExist(book)) {
-            booksLibrary.updateBook(book)
+        if (books.find(el => el.id === book.id)) {
+            firebase.updateBook(book)
         } else {
-            booksLibrary.addBook(book);
+            firebase.addBook(makeBookRandom(book));
         }
     };
 
@@ -84,7 +84,7 @@ export default function PanelEdit({match}) {
                         </button>
                         : ''}
                     {bookId && editingBook.id !== null
-                        ? <button onClick={() => booksLibrary.deleteBook(bookId)}>Delete</button>
+                        ? <button onClick={() => firebase.deleteBook(bookId)}>Delete</button>
                         : ''}
                     <button>Cancel</button>
                 </Link>
