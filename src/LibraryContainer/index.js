@@ -17,7 +17,6 @@ export default function LibraryContainer() {
     const [readState, setReadState] = useState('All');
     const [search, setSearch] = useState('');
 
-    console.log(sortOrder, sortProperty);
     firebase.onBooksChange((data) => {
         setBooks(data);
     });

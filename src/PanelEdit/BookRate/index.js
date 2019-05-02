@@ -6,18 +6,18 @@ import './style.css';
 
 export default function BookRate({bookRate, onBookRateChange, forceCheck}) {
 
-    const [rate, setRate] = useState(0);
+    const [rate, setRate] = useState(bookRate);
     const [error, setError] = useState(false);
 
-    // useEffect(() => setRate(bookRate));
+    useEffect(() => setRate(bookRate), [bookRate]);
+
 
     const rateCheck = (rate) => {
         return !(rate > 0 && rate <= 100);
     };
-console.log(rate, bookRate);
 
     const percentPerStar = 20;
-    const stars = Math.trunc(rate ? rate : bookRate / percentPerStar);
+    const stars = Math.trunc(rate / percentPerStar);
 
     if (forceCheck && error !== rateCheck(bookRate)) {
         setError(rateCheck(bookRate));
