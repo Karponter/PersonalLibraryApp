@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-export default function BookAuthor({onBookAuthorChange, bookAuthor, setGlobalError}) {
+export default function BookAuthor({onBookAuthorChange, bookAuthor, setGlobalError, forceCheck}) {
     const [error, setError] = useState(false);
 
     const authorCheck = (author) => {
@@ -8,6 +8,10 @@ export default function BookAuthor({onBookAuthorChange, bookAuthor, setGlobalErr
         setGlobalError(error);
         return error;
     };
+
+    if (forceCheck && error !== authorCheck(bookAuthor)) {
+        setError(authorCheck(bookAuthor));
+    }
 
     return (
         <p>

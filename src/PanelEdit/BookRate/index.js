@@ -4,15 +4,24 @@ import {faStar as faStarRegular} from "@fortawesome/free-regular-svg-icons/index
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import './style.css';
 
-export default function BookRate({bookRate, onBookRateChange}) {
+export default function BookRate({bookRate, onBookRateChange, forceCheck}) {
     const [rate, setRate] = useState();
+    const [error, setError] = useState(false);
     useEffect(() => setRate(bookRate), bookRate);
+
+    const rateCheck = (rate) => {
+        return !(rate > 0 && rate <= 100);
+    };
 
     const percentPerStar = 20;
     const stars = Math.trunc(rate / percentPerStar);
 
+    if (forceCheck && error !== rateCheck(bookRate)) {
+        setError(rateCheck(bookRate));
+    }
+
     return (
-        <p className='book-rate'>
+        <p className={error ? 'error-rate book-rate' : 'book-rate'}>
             {[...Array(5)].map((el, ind) => {
                 return (
                     <span key={ind}

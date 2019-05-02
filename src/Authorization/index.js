@@ -27,7 +27,7 @@ export default function Authorization() {
                 <label form="login">Login</label>
                 <input ref={loginRef} id="login" type="text"/>
                 <label form="password">Password</label>
-                <input ref={passwordRef} id="password" type="text"/>
+                <input ref={passwordRef} id="password" type="password"/>
                 <div className="controls">
                     <button onClick={signUp}>Sign Up</button>
                     <button onClick={signIn}>Log In</button>

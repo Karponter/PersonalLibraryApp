@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-export default function BookName({onBookNameChange, bookName, setGlobalError}) {
+export default function BookName({onBookNameChange, bookName, setGlobalError, forceCheck}) {
     const [error, setError] = useState(false);
 
     const nameCheck = (name) => {
@@ -8,6 +8,10 @@ export default function BookName({onBookNameChange, bookName, setGlobalError}) {
         setGlobalError(error);
         return error;
     };
+
+    if (forceCheck && error !== nameCheck(bookName)) {
+        setError(nameCheck(bookName));
+    }
 
     return (
         <p>

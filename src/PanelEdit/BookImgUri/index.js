@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-export default function BookImgUri({onBookImgChange, bookUri, setGlobalError}) {
+export default function BookImgUri({onBookImgChange, bookUri, setGlobalError, forceCheck}) {
     const [error, setError] = useState(false);
 
     const urlCheck = (url) => {
@@ -8,6 +8,10 @@ export default function BookImgUri({onBookImgChange, bookUri, setGlobalError}) {
         setGlobalError(error);
         return error;
     };
+
+    if (forceCheck && error !== urlCheck(bookUri)) {
+        setError(urlCheck(bookUri));
+    }
 
     return (
         <p>
