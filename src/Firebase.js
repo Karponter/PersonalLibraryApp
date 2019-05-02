@@ -89,7 +89,7 @@ class Firebase {
                 }
             });
             this.func(modified ? [...this.books] : this.books);
-        }, (err) => {console.log(err)});
+        }, (err) => {console.log(err.message)});
     };
 
 }
