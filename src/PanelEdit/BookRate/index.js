@@ -5,16 +5,19 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import './style.css';
 
 export default function BookRate({bookRate, onBookRateChange, forceCheck}) {
-    const [rate, setRate] = useState();
+
+    const [rate, setRate] = useState(0);
     const [error, setError] = useState(false);
-    useEffect(() => setRate(bookRate), bookRate);
+
+    // useEffect(() => setRate(bookRate));
 
     const rateCheck = (rate) => {
         return !(rate > 0 && rate <= 100);
     };
+console.log(rate, bookRate);
 
     const percentPerStar = 20;
-    const stars = Math.trunc(rate / percentPerStar);
+    const stars = Math.trunc(rate ? rate : bookRate / percentPerStar);
 
     if (forceCheck && error !== rateCheck(bookRate)) {
         setError(rateCheck(bookRate));

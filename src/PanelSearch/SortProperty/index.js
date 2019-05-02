@@ -9,10 +9,10 @@ export default function SortProperty({order, property, onSortOrderChange, onSort
             <label htmlFor="property">Sort</label>
             <select className="sort-select" id="property"
                     value={property}
-                    onChange={onSortPropertyChange}>
+                    onChange={(el) => onSortPropertyChange(el.target.value)}>
                 {sortProperties.map((property, index) => <option key={index}>{property}</option>)}
             </select>
-            <FontAwesomeIcon className="sort-order" onClick={onSortOrderChange} icon={order ? faSortUp : faSortDown}/>
+            <FontAwesomeIcon className="sort-order" onClick={() => onSortOrderChange(!order)} icon={order ? faSortUp : faSortDown}/>
         </p>
     );
 };

@@ -24,9 +24,9 @@ export default function Authorization() {
     return (
         <div className="container">
             <div className="input-container">
-                <label form="login">Login</label>
+                <label form="login">e-mail</label>
                 <input ref={loginRef} id="login" type="text"/>
-                <label form="password">Password</label>
+                <label form="password">password</label>
                 <input ref={passwordRef} id="password" type="password"/>
                 <div className="controls">
                     <button onClick={signUp}>Sign Up</button>
