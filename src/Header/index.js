@@ -17,7 +17,9 @@ export default function Header({userEmail}) {
             {userEmail !== ''
                 ? <div>
                     <span>{userEmail}</span>
-                    <button onClick={firebase.signOut}>Log out</button>
+                    <Link to="/">
+                        <button onClick={firebase.signOut}>Log out</button>
+                    </Link>
                 </div>
                 : ''}
         </nav>
